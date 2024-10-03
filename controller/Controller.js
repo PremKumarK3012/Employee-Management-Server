@@ -1,14 +1,7 @@
 const Employee = require("../model/empModel");
 const cloudinary = require("cloudinary").v2;
 
-// Set up multer for image uploads
-// const storage = multer.memoryStorage(); // Use memory storage for Cloudinary uploads
-// const upload = multer({
-//   storage: storage,
-//   limits: { fileSize: 2 * 1000 * 1000 }, // Limit file size to 2MB
-// }).single("Image"); // Adjust this according to your input name
-
-// Create Employee
+// Employee creation
 const uploadToCloudinary = (fileBuffer) => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
@@ -35,7 +28,7 @@ const createEmployee = async (req, res) => {
       Status
     } = req.body;
 
-    // Validate required fields
+    // Required field validation
     if (
       !EmployeeName ||
       !EmployeeID ||

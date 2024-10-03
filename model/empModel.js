@@ -9,19 +9,9 @@ const employeeSchema = new mongoose.Schema(
     Project: { type: String, trim: true },
     Type: { type: String, trim: true },
     Status: { type: String, trim: true },
-    Image: { type: String }, // Field for storing image path
+    Image: { type: String },
   },
   { timestamps: true }
 );
 
 module.exports = mongoose.model("Employee", employeeSchema);
-
-// {
-//     "EmployeeName":"mahathi",
-// "EmployeeID":"2",
-// "Department":"sales",
-// "Designation":"executive",
-// "Project":"ProjectA",
-// "Type":"remote",
-// "Status":"immediate",
-// }
