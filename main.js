@@ -32,7 +32,7 @@ app.get("/emp", (req, res) => {
 });
 
 mongoose
-  .connect("mongodb://localhost:27017")
+  .connect(process.env.MONGODB_URL)
   .then((res) => {
     console.log("MongoDB connected");
 
