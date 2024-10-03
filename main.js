@@ -25,7 +25,6 @@ app.use(
   })
 );
 app.use("/employee", emprouter);
-// app.use(express.static('./public'))
 
 app.get("/emp", (req, res) => {
   res.json(200);

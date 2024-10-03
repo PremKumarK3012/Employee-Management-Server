@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary").v2;
 const uploadToCloudinary = (fileBuffer) => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      //   { folder: "Employee" },
+      
       (error, result) => {
         if (error) return reject(error);
         resolve(result.secure_url);
@@ -36,7 +36,7 @@ const createEmployee = async (req, res) => {
       !Designation ||
       !Project ||
       !Type ||
-      Image||
+      !Image||
       !Status
     ) {
       return res.status(400).json({
@@ -238,13 +238,4 @@ module.exports = {
   deleteEmployee,
 };
 
-// fileFilter: function(req, file, cb) {
-//     const filetypes = /jpeg|jpg|png|gif/; // Allowed file types
-//     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-//     const mimetype = filetypes.test(file.mimetype);
-//     if (mimetype && extname) {
-//         return cb(null, true);
-//     } else {
-//         cb('Error: Images Only!'); // Error message for invalid file type
-//     }
-// }
+
