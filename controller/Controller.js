@@ -36,7 +36,7 @@ const createEmployee = async (req, res) => {
       !Designation ||
       !Project ||
       !Type ||
-      !Image||
+      Image||
       !Status
     ) {
       return res.status(400).json({
@@ -138,6 +138,7 @@ const updateEmployee = async (req, res) => {
         Project,
         Type,
         Status,
+        Image,
       } = req.body;
   
       if (
@@ -147,7 +148,8 @@ const updateEmployee = async (req, res) => {
         !Designation ||
         !Project ||
         !Type ||
-        !Status
+        !Status||
+        Image
       ) {
         return res.status(400).json({
           success: false,
