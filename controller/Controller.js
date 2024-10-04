@@ -24,7 +24,6 @@ const createEmployee = async (req, res) => {
       Designation,
       Project,
       Type,
-      Image,
       Status
     } = req.body;
 
@@ -36,7 +35,6 @@ const createEmployee = async (req, res) => {
       !Designation ||
       !Project ||
       !Type ||
-      !Image||
       !Status
     ) {
       return res.status(400).json({
@@ -65,7 +63,9 @@ const createEmployee = async (req, res) => {
       ...req.body,
       Image: imageUrl, // Save the image URL to the database
     });
-
+    console.log("Image", imageUrl);
+    console.log("newEmployee", newEmployee);
+    
     // Save to the database
     await newEmployee.save();
 
@@ -126,47 +126,40 @@ const getEmployeeById = async (req, res) => {
   }
 };
 const updateEmployee = async (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
+  try {
   
-    try {
-      // Validate required fields
-      const {
-        EmployeeName,
-        EmployeeID,
-        Department,
-        Designation,
-        Project,
-        Type,
-        Status,
-        Image,
-      } = req.body;
-  
-  
-      // Fetch the existing employee
-      const existingEmployee = await Employee.findById(id);
-      if (!existingEmployee) {
-        return res.status(404).json({
-          success: false,
-          message: "Employee not found.",
-        });
-      }
-  
+    // Fetch the existing employee
+    const existingEmployee = await Employee.findById(id);
+    if (!existingEmployee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found.",
+      });
+    };
       let imageUrl = existingEmployee.Image; // Keep existing image URL by default
   
+
       // If a new file is uploaded, handle the image update
       if (req.file) {
         // Upload new image to Cloudinary
         const newImageUrl = await uploadToCloudinary(req.file.buffer);
+        // console.log("newImageUrl", newImageUrl);
         imageUrl = newImageUrl; // Update the image URL
-      }
-  
+      };
+
       // Update employee details
       const updatedEmployee = await Employee.findByIdAndUpdate(
         id,
         { $set:{...req.body, Image: imageUrl }},
-        { new: true }
+        { new: true, runValidators:true}
       );
-  
+      if(!updatedEmployee) {
+        return res.status(400).json({
+          success:false,
+          message:"Employee Not Updated"
+        });
+      }
       res.status(200).json({
         success: true,
         message: "Employee updated successfully",
