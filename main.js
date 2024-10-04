@@ -7,7 +7,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
-const port = 3000;
 
 app.use(express.json());
 
@@ -30,13 +29,14 @@ app.get("/emp", (req, res) => {
   res.json(200);
 });
 
+const {PORT} = process.env;
 mongoose
   .connect(process.env.MONGODB_URL)
   .then((res) => {
     console.log("MongoDB connected");
 
-    app.listen(port, () => {
-      console.log("success");
+    app.listen(PORT, () => {
+      console.log(`Server is Connected in ${PORT}`);
     });
   })
   .catch((err) => {

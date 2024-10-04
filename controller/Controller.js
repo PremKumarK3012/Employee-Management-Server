@@ -36,7 +36,7 @@ const createEmployee = async (req, res) => {
       !Designation ||
       !Project ||
       !Type ||
-      Image||
+      !Image||
       !Status
     ) {
       return res.status(400).json({
@@ -141,21 +141,6 @@ const updateEmployee = async (req, res) => {
         Image,
       } = req.body;
   
-      if (
-        !EmployeeName ||
-        !EmployeeID ||
-        !Department ||
-        !Designation ||
-        !Project ||
-        !Type ||
-        !Status||
-        Image
-      ) {
-        return res.status(400).json({
-          success: false,
-          message: "All fields are required.",
-        });
-      }
   
       // Fetch the existing employee
       const existingEmployee = await Employee.findById(id);
@@ -178,7 +163,7 @@ const updateEmployee = async (req, res) => {
       // Update employee details
       const updatedEmployee = await Employee.findByIdAndUpdate(
         id,
-        { ...req.body, Image: imageUrl },
+        { $set:{...req.body, Image: imageUrl }},
         { new: true }
       );
   
